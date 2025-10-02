@@ -20,6 +20,11 @@ function App() {
   }, []);
 
   const loadCompanies = async () => {
+    // --- DEBUG: Using mock data to isolate frontend ---
+    // The Supabase data fetching has been temporarily disabled for debugging.
+    // Uncomment the block below to restore live data fetching from Supabase.
+
+    /*
     try {
       const { data, error } = await supabase
         .from('companies')
@@ -35,6 +40,111 @@ function App() {
     } catch (error) {
       console.error('Error loading companies:', error);
     }
+    */
+
+    // --- MOCK DATA: High-fidelity mock matching the exact Company type structure ---
+    const mockCompaniesData: Company[] = [
+      {
+        id: 'mock-uuid-001',
+        name: 'BH Telecom',
+        sector: 'IT',
+        city: 'Sarajevo',
+        website: 'https://www.bhtelecom.ba',
+        description: 'Leading telecom operator',
+        rating_avg: 4.2,
+        reviews_count: 132,
+        created_at: '2024-01-15T10:00:00Z',
+        updated_at: '2024-01-15T10:00:00Z'
+      },
+      {
+        id: 'mock-uuid-002',
+        name: 'Energoinvest',
+        sector: 'Energy',
+        city: 'Sarajevo',
+        website: 'https://www.energoinvest.ba',
+        description: 'Energy & engineering',
+        rating_avg: 4.0,
+        reviews_count: 58,
+        created_at: '2024-01-15T10:00:00Z',
+        updated_at: '2024-01-15T10:00:00Z'
+      },
+      {
+        id: 'mock-uuid-003',
+        name: 'Bosnalijek',
+        sector: 'Healthcare',
+        city: 'Sarajevo',
+        website: 'https://www.bosnalijek.com',
+        description: 'Pharmaceuticals',
+        rating_avg: 4.3,
+        reviews_count: 91,
+        created_at: '2024-01-15T10:00:00Z',
+        updated_at: '2024-01-15T10:00:00Z'
+      },
+      {
+        id: 'mock-uuid-004',
+        name: 'UniCredit Bank d.d.',
+        sector: 'Finance',
+        city: 'Mostar',
+        website: 'https://www.unicredit.ba',
+        description: 'Banking services',
+        rating_avg: 4.1,
+        reviews_count: 75,
+        created_at: '2024-01-15T10:00:00Z',
+        updated_at: '2024-01-15T10:00:00Z'
+      },
+      {
+        id: 'mock-uuid-005',
+        name: 'Bingo',
+        sector: 'Retail',
+        city: 'Tuzla',
+        website: 'https://bingobih.ba',
+        description: 'Retail chain',
+        rating_avg: 4.4,
+        reviews_count: 201,
+        created_at: '2024-01-15T10:00:00Z',
+        updated_at: '2024-01-15T10:00:00Z'
+      },
+      {
+        id: 'mock-uuid-006',
+        name: 'Telemach',
+        sector: 'IT',
+        city: 'Sarajevo',
+        website: 'https://telemach.ba',
+        description: 'Telecom & cable TV',
+        rating_avg: 4.1,
+        reviews_count: 120,
+        created_at: '2024-01-15T10:00:00Z',
+        updated_at: '2024-01-15T10:00:00Z'
+      },
+      {
+        id: 'mock-uuid-007',
+        name: 'BBI Centar',
+        sector: 'Retail',
+        city: 'Sarajevo',
+        website: 'https://www.bbicentar.ba',
+        description: 'Shopping center',
+        rating_avg: 4.5,
+        reviews_count: 245,
+        created_at: '2024-01-15T10:00:00Z',
+        updated_at: '2024-01-15T10:00:00Z'
+      },
+      {
+        id: 'mock-uuid-008',
+        name: 'M:tel',
+        sector: 'IT',
+        city: 'Banja Luka',
+        website: 'https://mtel.ba',
+        description: 'Telecommunications',
+        rating_avg: 4.0,
+        reviews_count: 156,
+        created_at: '2024-01-15T10:00:00Z',
+        updated_at: '2024-01-15T10:00:00Z'
+      }
+    ];
+
+    // Wire up the mock data to component state (same as live data would be)
+    setCompanies(mockCompaniesData);
+    setFilteredCompanies(mockCompaniesData);
   };
 
   const parseUserIntent = (input: string): SearchFilters & { companyName?: string } => {

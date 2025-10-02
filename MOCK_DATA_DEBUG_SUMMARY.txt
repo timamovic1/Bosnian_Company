@@ -1,0 +1,112 @@
+================================================================================
+MOCK DATA DEBUGGING - FRONTEND ISOLATION COMPLETE
+================================================================================
+
+SUMMARY:
+The frontend has been successfully isolated from all backend data calls.
+All Supabase database queries have been replaced with high-fidelity mock data.
+
+================================================================================
+CHANGES MADE:
+================================================================================
+
+FILE: src/App.tsx
+LOCATION: loadCompanies() function (lines 22-148)
+
+WHAT WAS CHANGED:
+1. ✓ Commented out the entire Supabase data fetch block
+   - The original code is preserved in block comments /* ... */
+   - Includes: supabase.from('companies').select('*')
+
+2. ✓ Added high-fidelity mock data (8 company records)
+   - Mock data structure matches Company type exactly:
+     * id (string)
+     * name (string)
+     * sector (string: IT, Energy, Healthcare, Finance, Retail)
+     * city (string: Sarajevo, Mostar, Tuzla, Banja Luka)
+     * website (string | null)
+     * description (string | null)
+     * rating_avg (number: 4.0-4.5)
+     * reviews_count (number: 58-245)
+     * created_at (ISO timestamp string)
+     * updated_at (ISO timestamp string)
+
+3. ✓ Wired up mock data to component state
+   - setCompanies(mockCompaniesData)
+   - setFilteredCompanies(mockCompaniesData)
+
+4. ✓ Added clear debug markers:
+   - "// --- DEBUG: Using mock data to isolate frontend ---"
+   - Instructions on how to restore live data
+
+================================================================================
+VERIFICATION:
+================================================================================
+
+✓ Build successful (npm run build completed without errors)
+✓ No TypeScript errors
+✓ Bundle size reduced (153.72 kB vs previous 278.95 kB)
+  - This confirms Supabase client code is tree-shaken when not used
+
+✓ Components verified - NO data fetching found in:
+  - src/components/ChatBox.tsx (pure UI component)
+  - src/components/CompanyCard.tsx (pure UI component)
+  - src/components/CompanyList.tsx (pure UI component)
+
+✓ Only one data fetch location found and mocked:
+  - src/App.tsx::loadCompanies() ✓ MOCKED
+
+================================================================================
+TESTING THE ISOLATED FRONTEND:
+================================================================================
+
+Run the dev server:
+  npm run dev
+
+Expected behavior with mock data:
+1. App loads immediately with 8 companies displayed
+2. All filtering works (by city, sector, rating)
+3. Chat interface works with mock data
+4. No network requests to Supabase
+5. No database errors in console
+
+Test cases to verify:
+- [ ] Page loads without white screen
+- [ ] 8 company cards are visible
+- [ ] Search for "IT companies in Sarajevo" shows 2 results
+- [ ] Search for "4+ star retail" shows Bingo and BBI Centar
+- [ ] Click on website links (they should work)
+- [ ] Filter by different sectors and cities
+
+================================================================================
+RESTORING LIVE DATA:
+================================================================================
+
+When ready to reconnect to Supabase:
+
+1. Open: src/App.tsx
+2. Find: "// --- DEBUG: Using mock data to isolate frontend ---"
+3. Uncomment the Supabase fetch block (remove /* and */)
+4. Delete or comment out the mock data section
+5. Save and test
+
+================================================================================
+DIAGNOSTIC INSIGHTS:
+================================================================================
+
+If the app NOW WORKS with mock data:
+→ The issue is in backend communication (Supabase connection, query, or data structure)
+→ Check: .env variables, Supabase migration status, RLS policies
+
+If the app STILL shows white screen:
+→ The issue is in frontend rendering (component logic, TypeScript errors, or UI bugs)
+→ Check: Browser console for errors, component props, React error boundaries
+
+Next debugging steps:
+1. Test with mock data (current state)
+2. Open browser dev tools → Console tab
+3. Open browser dev tools → Network tab
+4. Look for any JavaScript errors or warnings
+5. Verify no Supabase network requests are being made
+
+================================================================================
